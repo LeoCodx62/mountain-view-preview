@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "Mountain View — Webcam in montagna",
+  "short_name": "Mountain View",
+  "description": "Webcam panoramiche delle località alpine, raccolte in un unico posto.",
+  "lang": "it-IT",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#edf4f7",
+  "theme_color": "#edf4f7",
+  "icons": [
+    { "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
