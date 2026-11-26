@@ -1,5 +1,5 @@
-const CACHE_NAME = 'mountain-view-preview-shell-v2';
-const SHELL_URLS = ['./', './index.html', './manifest.webmanifest', './favicon.svg'];
+const CACHE_NAME = 'mountain-view-preview-shell-v3';
+const SHELL_URLS = ['./', './index.html', './manifest.webmanifest', './favicon.svg', './icons/mountain-view-180.png', './icons/mountain-view-192.png', './icons/mountain-view-512.png', './icons/mountain-view-512-maskable.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL_URLS)));
