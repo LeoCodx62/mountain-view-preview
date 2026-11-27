@@ -1,5 +1,5 @@
-const CACHE_NAME = 'mountain-view-preview-shell-v3';
-const SHELL_URLS = ['./', './index.html', './manifest.webmanifest', './favicon.svg', './icons/mountain-view-180.png', './icons/mountain-view-192.png', './icons/mountain-view-512.png', './icons/mountain-view-512-maskable.png'];
+const CACHE_NAME = 'mountain-view-preview-shell-v4';
+const SHELL_URLS = ['./', './index.html', './preview.html', './manifest.webmanifest', './favicon.svg', './icons/mountain-view-180.png', './icons/mountain-view-192.png', './icons/mountain-view-512.png', './icons/mountain-view-512-maskable.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL_URLS)));
@@ -18,10 +18,15 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(fetch(request).then(response => {
-      if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put('./index.html', response.clone()));
+    const scope = self.registration.scope;
+    const canonicalApp = new Request(new URL('preview.html', scope), { cache: 'reload' });
+    event.respondWith(fetch(canonicalApp).then(response => {
+      if (response.ok) caches.open(CACHE_NAME).then(async cache => {
+        await cache.put('./index.html', response.clone());
+        await cache.put('./preview.html', response.clone());
+      });
       return response;
-    }).catch(async () => (await caches.match('./index.html')) || (await caches.match('./'))));
+    }).catch(async () => (await caches.match('./preview.html')) || (await caches.match('./index.html')) || (await caches.match('./'))));
     return;
   }
 
